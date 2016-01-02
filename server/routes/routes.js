@@ -82,7 +82,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.post("/questions/a/:teacherId/:quizId/:quest/:answer", function(req, res){
+    app.post("/questions/:teacherId/:quizId/:quest/:answer", function(req, res){
         var quest = req.params.quest;
         var answer = req.params.answer;
         var quizId = req.params.quizId;
@@ -101,9 +101,30 @@ module.exports = function(app) {
         });
     });
     app.post("/questions/b/:teacherId/:quizId/:quest/:a/:b/:c/:d/:answer", function(req, res){
-        //add question  type b
-    });
+        var quest = req.params.quest;
+        var answer = req.params.answer;
+        var quizId = req.params.quizId;
+        var teacherId = req.params.teacherId;
+        var a =  req.params.a;
+        var b =  req.params.b;
+        var c =  req.params.c;
+        var d =  req.params.d;
 
+        questions.addQuestion(quizId,quest,answer,a,b,c,d, function(result, error){
+            if(error){
+                res.json({status:false});
+            }else{
+                res.json(result);
+            }
+        });
+    });
+    app.get("/randomquestion", function(req,res){
+        questions.getRandomQuestion(function(result,err){
+            if(!err){
+                res.json(result);
+            }
+        })
+    })
 
 
 };

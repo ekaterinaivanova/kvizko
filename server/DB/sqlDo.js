@@ -77,7 +77,16 @@ var addQuestion = function(q_id,question, answer,a,b,c,d, callback){
 
 var getAllQuestions = function(callback){
     var query = 'SELECT  * FROM ' + settings.tables_names.questions + ';';
-    console.log(query);
+    sql.exacuteQuery(query, function(res, err){
+        if(err){
+            callback({status:false});
+        }else{
+            callback({status:true, questions:res});
+        }
+    })
+};
+var getOneQuestions = function(callback){
+    var query = 'SELECT * FROM ' + settings.tables_names.questions+' ORDER BY RAND() LIMIT 1;';
     sql.exacuteQuery(query, function(res, err){
         if(err){
             callback({status:false});
@@ -87,6 +96,8 @@ var getAllQuestions = function(callback){
     })
 };
 module.exports.getAllQuestions = getAllQuestions;
+module.exports.getOneQuestions = getOneQuestions;
+
 module.exports.addQuestion = addQuestion;
 module.exports.addQuiz = addQuiz;
 module.exports.registerNew=registerNew;
