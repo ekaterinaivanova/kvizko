@@ -34,7 +34,7 @@ module.exports = function(app) {
         });
     });
 
-
+    //reqisters a student
     app.post('/student/register/:email/:pwd/:name/:lastname', function (req, res) {
         var email = req.params.email;
         var password = req.params.pwd;
@@ -47,7 +47,7 @@ module.exports = function(app) {
     });
 
 
-
+    //registers a teacher
     app.post('/teacher/register/:email/:pwd/:name/:lastname', function (req, res) {
         var email = req.params.email;
         var password = req.params.pwd;
@@ -58,7 +58,7 @@ module.exports = function(app) {
             res.json(found);
         });
     });
-
+    //Adds a question to a teacher
     app.post("/quiz/add/:teacherId/:quizName", function(req, res){
        //add quiz
         var qName = req.params.quizName;
@@ -71,6 +71,7 @@ module.exports = function(app) {
             }
         });
     });
+    //returns all questions
     app.get("/questions/all", function(req, res){
         //add quiz
 
@@ -82,17 +83,15 @@ module.exports = function(app) {
             }
         });
     });
-    app.post("/questions/:teacherId/:quizId/:quest/:answer", function(req, res){
+    app.post("/questions/add/:quizId/:quest/:answer/:hint", function(req, res){
         var quest = req.params.quest;
         var answer = req.params.answer;
         var quizId = req.params.quizId;
-        var teacherId = req.params.teacherId;
-        //var a =  req.params.a;
-        //var b =  req.params.b;
-        //var c =  req.params.c;
-        //var d =  req.params.d;
+        //var teacherId = req.params.teacherId;
+        var hint = req.params.hint;
 
-        questions.addQuestion(quizId,quest,answer,null,null,null,null, function(result, error){
+
+        questions.addQuestion(quizId,quest,answer,null,null,null,null,hint, function(result, error){
             if(error){
                 res.json({status:false});
             }else{
@@ -100,17 +99,21 @@ module.exports = function(app) {
             }
         });
     });
-    app.post("/questions/b/:teacherId/:quizId/:quest/:a/:b/:c/:d/:answer", function(req, res){
+    //Adds a question to a quiz
+    app.post("/questions/add/:quizId/:quest/:a/:b/:c/:d/:answer/:hint", function(req, res){
         var quest = req.params.quest;
         var answer = req.params.answer;
         var quizId = req.params.quizId;
-        var teacherId = req.params.teacherId;
+        //var teacherId = req.params.teacherId;
         var a =  req.params.a;
         var b =  req.params.b;
         var c =  req.params.c;
         var d =  req.params.d;
+        var hint = req.params.hint;
 
-        questions.addQuestion(quizId,quest,answer,a,b,c,d, function(result, error){
+
+
+        questions.addQuestion(quizId,quest,answer,a,b,c,d, hint, function(result, error){
             if(error){
                 res.json({status:false});
             }else{
@@ -118,7 +121,9 @@ module.exports = function(app) {
             }
         });
     });
-    app.get("/randomquestion", function(req,res){
+
+    //returns 1 random question
+    app.get("/question/random", function(req,res){
         questions.getRandomQuestion(function(result,err){
             if(!err){
                 res.json(result);

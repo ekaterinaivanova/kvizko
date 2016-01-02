@@ -24,12 +24,20 @@ exports.getRandomQuestion = function(callback){
     })
 };
 
-exports.addQuestion = function(quizId, question, answer,a,b,c,d, callback){
-    sql.addQuestion(quizId, question, answer,a,b,c,d, function(res, err){
-        if(err){
-            callback({status:false});
+exports.addQuestion = function(quizId, question, answer,a,b,c,d,hint, callback){
+    sql.ifQuizExists(quizId, function(result, err){
+        if(result.status){
+            sql.addQuestion(quizId, question, answer,a,b,c,d,hint, function(res, err){
+                if(err){
+                    callback({status:false});
+                }else{
+                    callback(res);
+                }
+            });
         }else{
-            callback(res);
+            callback({status:false,
+                response:"Wrong quiz id!"})
+
         }
     });
 };

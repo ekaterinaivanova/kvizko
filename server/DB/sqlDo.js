@@ -63,9 +63,9 @@ var  addQuiz = function(id, name, callback){
     });
 };
 
-var addQuestion = function(q_id,question, answer,a,b,c,d, callback){
-    var query ="INSERT INTO " + settings.tables_names.questions + " (quiz_id, question, answer,a,b,c,d) VALUES(?,?,?,?,?,?,?);" ;
-    var insert = [q_id,question,answer,a,b,c,d];
+var addQuestion = function(q_id,question, answer,a,b,c,d,hint, callback){
+    var query ="INSERT INTO " + settings.tables_names.questions + " (quiz_id, question, answer,a,b,c,d, hint) VALUES(?,?,?,?,?,?,?,?);" ;
+    var insert = [q_id,question,answer,a,b,c,d, hint];
     sql.exacuteQueryWithArgs(query,insert, function(res,err){
         if(err){
             callback({status:false});
@@ -95,8 +95,25 @@ var getOneQuestions = function(callback){
         }
     })
 };
+var ifQuiqExists = function(id, callback){
+    query = "SELECT * FROM " + settings.tables_names.quiz + " WHERE id = " + id;
+    sql.exacuteQuery(query, function(res, err){
+        if(!err){
+            console.log(res.length);
+            if(res.length>0){
+                callback({status:true})
+            }else{
+                callback({status:false,
+                response:"Wrong quiz id!"})
+            }
+        }else{
+            callback({status:false})
+        }
+    })
+};
 module.exports.getAllQuestions = getAllQuestions;
 module.exports.getOneQuestions = getOneQuestions;
+module.exports.ifQuizExists = ifQuiqExists;
 
 module.exports.addQuestion = addQuestion;
 module.exports.addQuiz = addQuiz;
