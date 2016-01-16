@@ -83,6 +83,17 @@ module.exports = function(app) {
             }
         });
     });
+    app.get("/quizzes/all", function(req, res){
+        //add quiz
+
+        quiz.getAllQuizzes(function(result, error){
+            if(error){
+                res.json({status:false});
+            }else{
+                res.json(result);
+            }
+        });
+    });
     app.post("/questions/add/:quizId/:quest/:answer/:hint", function(req, res){
         var quest = req.params.quest;
         var answer = req.params.answer;

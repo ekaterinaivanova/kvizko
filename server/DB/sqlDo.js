@@ -85,6 +85,16 @@ var getAllQuestions = function(callback){
         }
     })
 };
+var getAllQuizzes =  function(callback){
+    var query = 'SELECT  * FROM ' + settings.tables_names.quiz + ';';
+    sql.exacuteQuery(query, function(res, err){
+        if(err){
+            callback({status:false});
+        }else{
+            callback({status:true, questions:res});
+        }
+    })
+};
 var getOneQuestion = function(callback){
     var query = 'SELECT * FROM ' + settings.tables_names.questions+' ORDER BY RAND() LIMIT 1;';
     sql.exacuteQuery(query, function(res, err){
@@ -130,3 +140,4 @@ module.exports.addQuestion = addQuestion;
 module.exports.addQuiz = addQuiz;
 module.exports.registerNew=registerNew;
 module.exports.returnIfExists = returnIfExists;
+module.exports.getAllQuizzes = getAllQuizzes;

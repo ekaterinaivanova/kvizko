@@ -13,4 +13,14 @@ exports.addQuiz = function(id, name,callback){
         }
     })
 };
+exports.getAllQuizzes = function(callback){
+    sql.getAllQuizzes(function(res, err){
+        if(err){
+            callback({status:false});
+        }else{
+            callback(res);
+        }
+    })
+};
+
 
