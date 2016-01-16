@@ -17,7 +17,14 @@ exports.getAllQuestions = function(callback){
 
 
 exports.getRandomQuestion = function(callback){
-    sql.getOneQuestions(function(res, err){
+    sql.getOneQuestion(function(res, err){
+        if(!err){
+            callback(res);
+        }
+    })
+};
+exports.getRandomQuestionFromAQuiz = function(quizId, callback){
+    sql.getRandomQuestionFromAQuiz(quizId, function(res, err){
         if(!err){
             callback(res);
         }

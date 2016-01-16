@@ -129,7 +129,15 @@ module.exports = function(app) {
                 res.json(result);
             }
         })
-    })
+    });
 
+    app.get("/question/random/:quizId", function(req,res){
+        var quizId = req.params.quizId;
+        questions.getRandomQuestionFromAQuiz(quizId, function(result,err){
+            if(!err){
+                res.json(result);
+            }
+        })
+    })
 
 };
